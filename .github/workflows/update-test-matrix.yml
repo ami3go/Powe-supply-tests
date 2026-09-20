@@ -22,10 +22,8 @@ jobs:
           import hashlib
           from pathlib import Path
 
-          payload = ''.join(
-              Path(f'.github/tmp/matrix.part{i}').read_text().strip()
-              for i in range(4)
-          )
+          names = ['matrix.part0a', 'matrix.part0b', 'matrix.part1', 'matrix.part2', 'matrix.part3']
+          payload = ''.join((Path('.github/tmp') / name).read_text().strip() for name in names)
           data = gzip.decompress(base64.b64decode(payload))
           expected = 'c97c0eaefcbb1928f2c1a870f00d01be6fa7505aa25030d12d2c5ba1f8fbbaab'
           actual = hashlib.sha256(data).hexdigest()
