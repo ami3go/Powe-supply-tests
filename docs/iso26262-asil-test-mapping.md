@@ -415,6 +415,7 @@ Column key: **Was** = previous class (M\* Mandatory\*, C\* Conditional\*, NAS No
 | CORE | 25 |
 | CORE* | 14 |
 | TRIG | 12 |
+| TRIG* | 2 |
 | ROB | 38 |
 | QUAL | 7 |
 | SUPP | 2 |
