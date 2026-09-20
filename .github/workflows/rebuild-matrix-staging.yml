@@ -42,7 +42,7 @@ jobs:
 
           matrix = Path('docs/automotive-power-supply-test-matrix.md')
           text = matrix.read_text()
-          ids = [x for x in re.findall(r'^\|\s*([A-Z0-9-]+)\s*\|', text, re.M) if '-' in x]
+          ids = re.findall(r'^\|\s*([A-Z0-9]+-\d{3})\s*\|', text, re.M)
           assert len(ids) == 100, f'expected 100 test IDs, got {len(ids)}'
           assert len(set(ids)) == 100, 'duplicate test IDs found'
           assert 'FUSA-011' in ids and 'LIFE-005' in ids
