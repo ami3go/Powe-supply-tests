@@ -163,9 +163,10 @@ ISO 26262 does not define a fixed electrical bench-test list per ASIL. Applicabi
 4. Protection/fault injection: PS-014 through PS-020 and PS-030, while PS-029 component-stress capture runs during severe tests.
 5. Automotive supply profiles: AUTO-001 through AUTO-018, beginning with non-destructive ramps before severe transients.
 6. Temperature corners: TH-001 through TH-005, TH-008 and TH-009, repeating critical electrical tests.
-7. Endurance: LIFE-001 through LIFE-004 after short-duration validation passes.
-8. Electromagnetic-compatibility pre-compliance: EMC-006 as soon as the layout and harness are representative.
-9. Formal qualification: conducted transients, electromagnetic compatibility, electrostatic discharge, insulation/dielectric, environmental, 48-volt/high-voltage and safety tests with the required compliant equipment.
+7. Endurance and robustness margin: LIFE-001 through LIFE-005 after short-duration validation passes; LIFE-005 uses sacrificial samples where destructive margin exploration is permitted.
+8. Functional-safety verification: FUSA-001 through FUSA-011, driven by the technical and hardware safety requirements, safety analyses, allocated fault-tolerant time intervals and assumptions of use.
+9. Electromagnetic-compatibility pre-compliance: EMC-006 as soon as the layout and harness are representative.
+10. Formal qualification: conducted transients, electromagnetic compatibility, electrostatic discharge, insulation/dielectric, environmental, 48-volt/high-voltage and safety tests with the required compliant equipment.
 
 ## Key reference notes
 
