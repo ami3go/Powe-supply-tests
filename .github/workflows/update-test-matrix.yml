@@ -1,4 +1,4 @@
-name: Update automotive power supply matrix
+name: Normalize automotive test matrix status
 
 on:
   push:
@@ -10,41 +10,35 @@ permissions:
   contents: write
 
 jobs:
-  update-matrix:
+  normalize-status:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Generate reviewed matrix
+      - name: Correct setup status labels
         shell: python
         run: |
-          import base64
-          import gzip
-          import hashlib
           from pathlib import Path
 
-          names = [
-              'matrix.part0a',
-              'matrix.part0b1',
-              'matrix.part0b2a', 'matrix.part0b2b', 'matrix.part0b2c', 'matrix.part0b2d', 'matrix.part0b2e',
-              'matrix.part1', 'matrix.part2', 'matrix.part3',
-          ]
-          payload = ''.join((Path('.github/tmp') / name).read_text().strip() for name in names)
-          if len(payload) != 25372:
-              raise RuntimeError(f'Unexpected encoded payload length: {len(payload)}')
-          data = gzip.decompress(base64.b64decode(payload))
-          expected = 'c97c0eaefcbb1928f2c1a870f00d01be6fa7505aa25030d12d2c5ba1f8fbbaab'
-          actual = hashlib.sha256(data).hexdigest()
-          if actual != expected:
-              raise RuntimeError(f'Matrix SHA-256 mismatch: {actual}')
-          Path('docs').mkdir(parents=True, exist_ok=True)
-          Path('docs/automotive-power-supply-test-matrix.md').write_bytes(data)
-      - name: Commit matrix
+          path = Path('docs/automotive-power-supply-test-matrix.md')
+          lines = path.read_text().splitlines()
+          partial_ids = {'PS-006', 'PS-012', 'PS-015', 'PS-019', 'PS-029', 'LIFE-004'}
+          changed = []
+          for index, line in enumerate(lines):
+              for test_id in partial_ids:
+                  if line.startswith(f'| {test_id} |'):
+                      if '| Available |' not in line:
+                          raise RuntimeError(f'{test_id} did not have expected Available status')
+                      lines[index] = line.replace('| Available |', '| Partial |', 1)
+                      changed.append(test_id)
+                      break
+          if set(changed) != partial_ids:
+              raise RuntimeError(f'Missing rows: {sorted(partial_ids - set(changed))}')
+          path.write_text('\n'.join(lines) + '\n')
+      - name: Commit corrections
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/automotive-power-supply-test-matrix.md
-          if ! git diff --cached --quiet; then
-            git commit -m "docs: merge matrix review and N6700 mapping"
-            git push
-          fi
+          git commit -m "docs: correct N6700 setup availability labels"
+          git push
