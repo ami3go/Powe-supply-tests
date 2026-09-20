@@ -61,20 +61,22 @@ jobs:
 
           matrix_path = Path('docs/automotive-power-supply-test-matrix.md')
           matrix = matrix_path.read_text(encoding='utf-8')
-          legend = '''### ISO 26262 ASIL applicability
-
-The ISO 26262 columns are synchronized with [`iso26262-asil-test-mapping.md`](iso26262-asil-test-mapping.md) and [`iso26262-test-classification.csv`](iso26262-test-classification.csv). The matrix now contains **100 test rows**.
-
-- **REQ** — required when the row verifies the applicable safety requirement or safety mechanism.
-- **T** — analysis-triggered; once the safety analysis or architecture makes the failure mode safety-relevant, treat the test as required.
-- **++ / + / o** — ISO 26262-5 clause-10 method grades: highly recommended / recommended / no recommendation for or against.
-- **FI+ / FI++ / WC+** — fault-injection or worst-case-testing evidence with its method grade.
-- **Trailing `*`** — applies only under the row-specific condition or when the operating environment, interface, mission profile or vehicle requirement makes the stress applicable.
-- **—** — not driven by ISO 26262; another automotive standard, customer requirement or design-validation plan can still require it.
-
-ISO 26262 does not define a fixed electrical bench-test list per ASIL. Applicability comes from the safety goals, technical and hardware safety requirements, safety mechanisms, safety analyses and assumptions of use. For CORE and applicable ROB rows used as safety evidence, also apply the safety-oriented pass criteria in the detailed mapping: no undetected unsafe excursion, timely fault reaction within the allocated fault-tolerant time interval, defined reset/safe-state behavior, no latent damage to safety mechanisms and safety-relevant monitoring during stress.
-
-'''
+          legend = "\n".join([
+              "### ISO 26262 ASIL applicability",
+              "",
+              "The ISO 26262 columns are synchronized with [`iso26262-asil-test-mapping.md`](iso26262-asil-test-mapping.md) and [`iso26262-test-classification.csv`](iso26262-test-classification.csv). The matrix now contains **100 test rows**.",
+              "",
+              "- **REQ** — required when the row verifies the applicable safety requirement or safety mechanism.",
+              "- **T** — analysis-triggered; once the safety analysis or architecture makes the failure mode safety-relevant, treat the test as required.",
+              "- **++ / + / o** — ISO 26262-5 clause-10 method grades: highly recommended / recommended / no recommendation for or against.",
+              "- **FI+ / FI++ / WC+** — fault-injection or worst-case-testing evidence with its method grade.",
+              "- **Trailing `*`** — applies only under the row-specific condition or when the operating environment, interface, mission profile or vehicle requirement makes the stress applicable.",
+              "- **—** — not driven by ISO 26262; another automotive standard, customer requirement or design-validation plan can still require it.",
+              "",
+              "ISO 26262 does not define a fixed electrical bench-test list per ASIL. Applicability comes from the safety goals, technical and hardware safety requirements, safety mechanisms, safety analyses and assumptions of use. For CORE and applicable ROB rows used as safety evidence, also apply the safety-oriented pass criteria in the detailed mapping: no undetected unsafe excursion, timely fault reaction within the allocated fault-tolerant time interval, defined reset/safe-state behavior, no latent damage to safety mechanisms and safety-relevant monitoring during stress.",
+              "",
+              "",
+          ])
           matrix = re.sub(r'### ISO 26262 ASIL applicability\n.*?(?=## Test matrix\n)', legend, matrix, flags=re.S)
 
           lines, out, in_table = matrix.splitlines(), [], False
