@@ -41,7 +41,7 @@ jobs:
           rows = list(csv.DictReader(Path('docs/iso26262-test-classification.csv').open(encoding='utf-8')))
           if len(rows) != 100 or len({r['test_id'] for r in rows}) != 100:
               raise RuntimeError('Classification CSV is not 100 unique rows')
-          if sum(r['class']=='TRIG*' for r in rows) != 2:
+          if sum(r['class'] in {'TRIG*', 'TRIG\\*'} for r in rows) != 2:
               raise RuntimeError('Expected exactly two TRIG* rows')
       - name: Remove one-shot workflow and commit
         run: |
