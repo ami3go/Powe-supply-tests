@@ -34,7 +34,7 @@ jobs:
             .matrix-upload/part-07.b64 \
             | base64 --decode > docs/automotive-power-supply-test-matrix.md
 
-          echo 'd70fbfc632c7775010ea270110848eff7264c39936d87d57c86f82933d2259b6  docs/automotive-power-supply-test-matrix.md' | sha256sum -c -
+          echo '199d8d8e43932cecd8089cf984158ba19f98f9986186e77004af3adccc4c7664  docs/automotive-power-supply-test-matrix.md' | sha256sum -c -
 
           python - <<'PY'
           from pathlib import Path
@@ -63,7 +63,7 @@ jobs:
           PY
 
           rm -rf .matrix-upload
-          rm -f .github/workflows/rebuild-matrix-staging.yml
+          rm -f .github/workflows/rebuild-matrix-staging.yml .github/workflows/diagnose-matrix-staging.yml
 
           git config user.name 'github-matrix-bot'
           git config user.email 'github-matrix-bot@users.noreply.github.com'
