@@ -1,0 +1,72 @@
+name: Rebuild matrix staging
+
+on:
+  push:
+    branches:
+      - docs/100-row-power-supply-matrix
+    paths:
+      - .github/workflows/rebuild-matrix-staging.yml
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: docs/100-row-power-supply-matrix
+
+      - name: Rebuild and validate matrix
+        shell: bash
+        run: |
+          cat \
+            .matrix-upload/part-00a.b64 \
+            .matrix-upload/part-00b.b64 \
+            .matrix-upload/part-01.b64 \
+            .matrix-upload/part-02.b64 \
+            .matrix-upload/part-03.b64 \
+            .matrix-upload/part-04.b64 \
+            .matrix-upload/part-05.b64 \
+            .matrix-upload/part-06a.b64 \
+            .matrix-upload/part-06b.b64 \
+            .matrix-upload/part-07.b64 \
+            | base64 --decode > docs/automotive-power-supply-test-matrix.md
+
+          echo 'd70fbfc632c7775010ea270110848eff7264c39936d87d57c86f82933d2259b6  docs/automotive-power-supply-test-matrix.md' | sha256sum -c -
+
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          matrix = Path('docs/automotive-power-supply-test-matrix.md')
+          text = matrix.read_text()
+          ids = [x for x in re.findall(r'^\|\s*([A-Z0-9-]+)\s*\|', text, re.M) if '-' in x]
+          assert len(ids) == 100, f'expected 100 test IDs, got {len(ids)}'
+          assert len(set(ids)) == 100, 'duplicate test IDs found'
+          assert 'FUSA-011' in ids and 'LIFE-005' in ids
+          assert 'internal requirement / safety analysis' in text
+          print('validated', len(ids), 'unique test IDs')
+
+          p = Path('docs/iso26262-asil-test-mapping.md')
+          s = p.read_text()
+          s = s.replace(
+              'This file maps the 89 tests in `automotive-power-supply-test-matrix.md` plus 11 proposed additions from this review',
+              'This file maps the 100 tests in `automotive-power-supply-test-matrix.md`; the 11 additions introduced by the Revision 2 review are now incorporated in the matrix'
+          )
+          s = s.replace(
+              'Matrix update needed. Add FUSA-002 to FUSA-011 and LIFE-005 to the matrix with stimulus, equipment and N6700 mapping; update its four ISO 26262 columns and its ISO 26262 applicability section to the §3 legend.',
+              'Matrix synchronization. FUSA-002 to FUSA-011 and LIFE-005 are incorporated in the matrix with stimulus, equipment, N6700 mapping and ISO 26262 grading.'
+          )
+          p.write_text(s)
+          PY
+
+          rm -rf .matrix-upload
+          rm -f .github/workflows/rebuild-matrix-staging.yml
+
+          git config user.name 'github-matrix-bot'
+          git config user.email 'github-matrix-bot@users.noreply.github.com'
+          git add -A
+          git commit -m 'docs: integrate 100-row power-supply validation matrix'
+          git push origin HEAD:docs/100-row-power-supply-matrix
