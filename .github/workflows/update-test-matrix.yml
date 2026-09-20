@@ -22,8 +22,15 @@ jobs:
           import hashlib
           from pathlib import Path
 
-          names = ['matrix.part0a', 'matrix.part0b', 'matrix.part1', 'matrix.part2', 'matrix.part3']
+          names = [
+              'matrix.part0a',
+              'matrix.part0b1',
+              'matrix.part0b2a', 'matrix.part0b2b', 'matrix.part0b2c', 'matrix.part0b2d', 'matrix.part0b2e',
+              'matrix.part1', 'matrix.part2', 'matrix.part3',
+          ]
           payload = ''.join((Path('.github/tmp') / name).read_text().strip() for name in names)
+          if len(payload) != 25372:
+              raise RuntimeError(f'Unexpected encoded payload length: {len(payload)}')
           data = gzip.decompress(base64.b64decode(payload))
           expected = 'c97c0eaefcbb1928f2c1a870f00d01be6fa7505aa25030d12d2c5ba1f8fbbaab'
           actual = hashlib.sha256(data).hexdigest()
