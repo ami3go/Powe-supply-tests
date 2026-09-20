@@ -1,0 +1,47 @@
+name: Retry Claude ISO 26262 merge
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  merge:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run corrected merge script
+        shell: python
+        run: |
+          from pathlib import Path
+
+          wf = Path('.github/workflows/merge-claude-iso26262.yml').read_text(encoding='utf-8')
+          marker = '        run: |\n'
+          start = wf.index(marker) + len(marker)
+          end = wf.index('\n      - name: Remove one-shot staging files and workflow', start)
+          block = wf[start:end]
+          script = '\n'.join(line[10:] if line.startswith('          ') else line for line in block.splitlines())
+          old = "mapping = ''.join(p.read_text(encoding='utf-8') for p in parts)"
+          new = "mapping = '\\n'.join(p.read_text(encoding='utf-8').rstrip('\\n') for p in parts) + '\\n'"
+          if old not in script:
+              raise RuntimeError('Expected concatenation line not found')
+          script = script.replace(old, new, 1)
+          exec(compile(script, '<corrected-iso26262-merge>', 'exec'), {'__name__': '__main__'})
+
+      - name: Clean one-shot merge files
+        run: |
+          rm -rf .tmp/iso26262
+          rm -f .github/workflows/merge-claude-iso26262.yml
+          rm -f .github/workflows/merge-claude-iso26262-retry.yml
+
+      - name: Commit synchronized ISO 26262 revision
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "docs: merge reviewed ISO 26262 Revision 2"
+          git push
