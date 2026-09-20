@@ -2,7 +2,7 @@
 
 *Revision 2 (merged with review corrections) · 2026-09-20 · supersedes the version reviewed in [R15] · every change is listed with its rationale and references in [§2](#2-change-log)*
 
-This file maps the 89 tests in [`automotive-power-supply-test-matrix.md`](automotive-power-supply-test-matrix.md), plus 11 proposed additions, to their functional-safety role under ISO 26262.
+This file maps the 100 tests in [`automotive-power-supply-test-matrix.md`](automotive-power-supply-test-matrix.md) to their functional-safety role under ISO 26262; the 11 additions introduced by the Revision 2 review are now incorporated in the matrix.
 
 > **Unchanged principle.** ISO 26262 does not define a fixed list of bench tests per ASIL. Verification obligations flow from the safety goals (or, for a safety element out of context, the assumed safety requirements), the technical and hardware safety requirements, the safety mechanisms and the safety analyses. Every safety requirement has to be verified, whatever its ASIL.
 >
