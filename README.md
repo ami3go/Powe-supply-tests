@@ -5,6 +5,7 @@ Automotive power-supply validation plans, test matrices, standards references, s
 ## Documents
 
 - [Automotive Power Supply Validation Test Matrix](docs/automotive-power-supply-test-matrix.md) — comprehensive matrix covering DC characterization, automotive supply disturbances, protection/fault injection, ISO 7637 transients, EMC/ESD, thermal/environmental testing, endurance, 48 V and voltage-class-B systems.
+- [Automated Power-Supply Validation Bench](docs/automated-power-supply-validation-bench.md) — automation coverage assessment and recommended architecture for a thermal chamber, N6700 supply, electronic load, DPO4000 oscilloscope, and relay/fast fault-injection fixture.
 - [Automotive Power-Supply Validation — Research Source Links](docs/research-source-links.md) — verified link index for standards, LV 124 / VW 80000 material, Keysight bench documentation, application notes and automotive reference designs used during the deep research.
 
 ## Intended bench
