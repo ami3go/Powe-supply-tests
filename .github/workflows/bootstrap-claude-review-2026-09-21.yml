@@ -17,6 +17,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: review/claude-2026-09-21
+
       - name: Rebuild integration package
         shell: bash
         run: |
@@ -32,19 +33,72 @@ jobs:
               p = Path(name)
               p.parent.mkdir(parents=True, exist_ok=True)
               p.write_bytes(gzip.decompress(base64.b64decode(data)))
+              print('wrote', p)
           PY
-      - name: Diagnose apply script
+
+      - name: Apply Claude review
         shell: bash
         run: |
-          cp /tmp/apply_review.py ./apply_review.py
-          set +e
-          python3 ./apply_review.py > .review-staging/diagnostic2.txt 2>&1
-          rc=$?
-          echo "exit_code=$rc" >> .review-staging/diagnostic2.txt
-          rm -f ./apply_review.py
+          mkdir -p .tmp
+          cp /tmp/apply_review.py .tmp/apply_review.py
+          python3 .tmp/apply_review.py
+          rm -rf .tmp
+
+      - name: Install matrix consistency CI
+        shell: bash
+        run: |
+          mkdir -p .github/workflows
+          cat > .github/workflows/matrix-consistency.yml <<'YAML'
+          name: Matrix consistency
+
+          on:
+            push:
+              paths:
+                - 'docs/**'
+                - 'check_matrix_consistency.py'
+                - '.github/workflows/matrix-consistency.yml'
+            pull_request:
+              paths:
+                - 'docs/**'
+                - 'check_matrix_consistency.py'
+                - '.github/workflows/matrix-consistency.yml'
+
+          jobs:
+            consistency:
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v4
+                - name: Validate matrix artefacts
+                  run: python3 check_matrix_consistency.py
+          YAML
+
+      - name: Validate integrated repository
+        shell: bash
+        run: |
+          python3 check_matrix_consistency.py
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          md = Path('docs/automotive-power-supply-test-matrix.md').read_text()
+          ids = re.findall(r'^\|\s*([A-Z0-9]+-\d{3})\s*\|', md, re.M)
+          assert len(ids) == 121 and len(set(ids)) == 121, (len(ids), len(set(ids)))
+          bench = Path('docs/automated-power-supply-validation-bench.md').read_text()
+          assert '121 test rows' in bench
+          assert '**121** | **38** | **23** | **29** | **31**' in bench
+          readme = Path('README.md').read_text()
+          assert 'Research Source Links v2' in readme
+          assert Path('docs/mission-profile-template.md').exists()
+          print('validated 121-row repository integration')
+          PY
+          git diff --check
+
+      - name: Commit reviewed update
+        shell: bash
+        run: |
+          rm -rf .review-staging
+          rm -f .github/workflows/bootstrap-claude-review-2026-09-21.yml
           git config user.name 'github-review-bot'
           git config user.email 'github-review-bot@users.noreply.github.com'
-          git add .review-staging/diagnostic2.txt
-          git commit -m 'chore: record patcher diagnostic after root fix'
+          git add -A
+          git commit -m 'docs: apply Claude deep review and expand validation coverage'
           git push origin HEAD:review/claude-2026-09-21
-          exit $rc
