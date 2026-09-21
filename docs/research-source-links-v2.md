@@ -2,7 +2,7 @@
 
 _Last verified: 2026-09-21 · Extends [`research-source-links.md`](research-source-links.md) (entries 1–43, verified 2026-09-20)_
 
-This revision keeps all 43 existing curated entries unchanged and adds **entries 44–88** found during a second research pass. It follows the provenance rules already established in the repository:
+This revision keeps all 43 existing curated entries unchanged and adds **entries 44–91** found during a second research pass. It follows the provenance rules already established in the repository:
 
 - Standards publishers, accreditation bodies, instrument and semiconductor manufacturers, and original bibliographic records are preferred.
 - Unofficial full-text mirrors of copyrighted standards are not treated as authoritative.
@@ -77,7 +77,7 @@ Unchanged.
 
 | # | Source / document | Main use | Access | Status | Link |
 |---:|---|---|---|---|---|
-| 69 | **AEC-Q100 Rev J** (11 Aug 2023) — Failure-mechanism-based stress-test qualification for integrated circuits | Grades 0–3 by ambient (Grade 0 −40…+150 °C through Grade 4 0…+70 °C); zero failures across three non-consecutive production lots. Anchors `PS-029` derating to a real component-qualification basis. Rev J made Q006 data mandatory and adjusted ESD targets for advanced CMOS. | **Free** | Current revision | http://www.aecouncil.com/Documents/AEC_Q100_Rev_J_Base_Document.pdf |
+| 69 | **AEC-Q100 Rev J** (11 Aug 2023) — Failure-mechanism-based stress-test qualification for integrated circuits | Grades 0–4 by ambient (Grade 0 −40…+150 °C through Grade 4 0…+70 °C); zero failures across three non-consecutive production lots. Anchors `PS-029` derating to a real component-qualification basis. Rev J made Q006 data mandatory and adjusted ESD targets for advanced CMOS. | **Free** | Current revision | http://www.aecouncil.com/Documents/AEC_Q100_Rev_J_Base_Document.pdf |
 | 70 | **AEC document archive** — Q100, Q101, Q102, Q103, Q104, Q200 and sub-documents | Full free library. **AEC-Q101-006** (short-circuit reliability characterization of smart power devices for 12 V systems) is directly relevant to `PS-015`/`PS-030`; **AEC-Q104** covers multichip modules. | **Free** | Maintained | http://www.aecouncil.com/AECDocuments.html |
 | 71 | AEC 2025 European Workshop — AEC-Q200 session | Records AEC-Q200 **Rev E** (2023) as current and Q200-001 Rev C expected 2025 | **Free** | Workshop material | http://www.aecouncil.com/files/Workshops/2025_European_AEC_Workshop/W2%20AEC%202025%20EU%20Workshop%20-%20Q200%20Workshop.pdf |
 | 72 | Panasonic — *What is AEC-Q200?* | Notes that AEC-Q200 Rev E added test items for automotive fuses, and that jump-start and load-dump resistance are applied at passive-component level | Free | Manufacturer technical article | https://industrial.panasonic.com/ww/ds/ss/technical/b17 |

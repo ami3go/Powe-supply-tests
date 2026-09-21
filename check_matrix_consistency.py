@@ -119,7 +119,7 @@ def main(fix_csv: bool = False) -> int:
     if fix_csv:
         header = list(csv_rows[0].keys())
         with MATRIX_CSV.open("w", newline="", encoding="utf-8-sig") as f:
-            w = csv.writer(f)
+            w = csv.writer(f, lineterminator="\n")
             w.writerow(header)
             for r in md_rows:
                 w.writerow([c.replace("\\*", "*").replace("\\|", "|") for c in r])
