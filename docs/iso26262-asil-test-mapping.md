@@ -2,7 +2,7 @@
 
 *Revision 2 (merged with review corrections) · 2026-09-20 · supersedes the version reviewed in [R15] · every change is listed with its rationale and references in [§2](#2-change-log)*
 
-This file maps the 100 tests in [`automotive-power-supply-test-matrix.md`](automotive-power-supply-test-matrix.md) to their functional-safety role under ISO 26262; the 11 additions introduced by the Revision 2 review are now incorporated in the matrix.
+This file maps the 121 tests in [`automotive-power-supply-test-matrix.md`](automotive-power-supply-test-matrix.md) to their functional-safety role under ISO 26262; the 11 additions introduced by the Revision 2 review are now incorporated in the matrix.
 
 > **Unchanged principle.** ISO 26262 does not define a fixed list of bench tests per ASIL. Verification obligations flow from the safety goals (or, for a safety element out of context, the assumed safety requirements), the technical and hardware safety requirements, the safety mechanisms and the safety analyses. Every safety requirement has to be verified, whatever its ASIL.
 >
@@ -48,6 +48,7 @@ This file maps the 100 tests in [`automotive-power-supply-test-matrix.md`](autom
 | CHG-18 | QM column and SEooC path | All; §8 | R6 cl. 6, 7; R7 cl. 9 |
 | CHG-19 | Text corrections: independence, validation, edition, references | Preamble; §7; §11 | R2 cl. 6; R3 cl. 7, 8; R9; R15 |
 | CHG-20 | Evidence process: sample size, tool confidence, single source of truth | §7; §10 | R4 cl. 10; R5 cl. 11; R13; R14; R15 |
+| CHG-21 | Claude deep-review integration: 21 coverage rows, title/style reconciliation, source expansion and consistency CI | PS-032…QUAL-001; §4; repository CI | Deep review 2026-09-21; research-source-links-v2; test-matrix-additions-2026-09-21 |
 
 ### 2.1 Rationale per change
 
@@ -422,6 +423,34 @@ Column key: **Was** = previous class (M\* Mandatory\*, C\* Conditional\*, NAS No
 | **Total** | **100** |
 
 Relative to the previous 89-row mapping, this revision adds 11 rows and replaces the old three-class scheme with functional-safety role classes. PS-021 and PS-029 remain TRIG at all ASILs after review correction; FUSA-004 and FUSA-006 are conditional CORE* rows.
+
+### 4.1 CHG-21 additions
+
+The following rows were added after the 2026-09-21 deep review. Their grades are proposals following the existing legend and must be confirmed against the licensed standard and project safety requirements before use in a safety case.
+
+| ID | Class | ASIL A | ASIL B | ASIL C | ASIL D | Note |
+|---|---|---|---|---|---|---|
+| PS-032 | TRIG | T | T | REQ | REQ | non-invasive alternative/cross-check for loop stability |
+| PS-033 | TRIG | T | T | T | T | effective capacitance feeds ripple/transient/stability evidence |
+| PS-034 | QUAL | — | — | — | — | project NVH requirement |
+| TR-007 | ROB | ++* | ++* | ++* | ++* | voltage-class-B conducted transients when applicable |
+| TR-008 | SUPP | + | + | ++ | ++ | transient-generator verification and traceability |
+| EMC-009 | ROB | ++ | ++ | ++ | ++ | ISO 11452-10 when applicable |
+| EMC-010 | ROB | ++* | ++* | ++* | ++* | UN R10 charging/mains-coupled products |
+| EMC-011 | ROB | ++* | ++* | ++* | ++* | reverberation-chamber alternative when applicable |
+| EMC-012 | TRIG | T | T | T | T | method selected by design/qualification plan |
+| LIFE-006 | ROB | + | + | ++ | ++ | power-module stages only |
+| LIFE-007 | ROB | ++ | ++ | ++ | ++ | biased humidity / electrochemical migration |
+| ENV-006 | ROB | T | T | T | T | altitude/low-pressure where mission profile requires |
+| HV-003 | TRIG* | T* | T* | T* | T* | isolated barriers / insulation coordination |
+| HV-004 | TRIG | T | T | T | T | common-mode transient immunity where an isolation barrier exists |
+| SYS-001 | TRIG | T | T | T | T | vehicle-fuse coordination |
+| SYS-002 | CORE* | ++* | ++* | REQ* | REQ* | NVM/reflash interruption where persistent data affects safety |
+| SYS-003 | QUAL | — | — | — | — | realistic key-off energy budget with bus activity |
+| BI-001 | ROB | ++* | ++* | ++* | ++* | bidirectional converters only |
+| BI-002 | CORE* | T* | T* | REQ* | REQ* | dual-source arbitration / inter-net propagation |
+| RV-001 | ROB | + | + | ++ | ++ | mission-profile robustness-validation framework |
+| QUAL-001 | TRIG | T | T | ++ | ++ | component qualification evidence against mission profile |
 
 ## 5. New rows: test outlines
 

@@ -1,6 +1,8 @@
 # Automated Power-Supply Validation Bench — Test Coverage and Architecture
+| SYS-001 | Automated fault-current / time capture against the representative vehicle fuse; verify selectivity and I²t margin |
+| SYS-002 | Randomized interruption during non-volatile-memory writes and reflash; verify CRC/bootloader recovery and no undetected corruption |
 
-_Last updated: 2026-09-20_
+_Last updated: 2026-09-21_
 
 ## Purpose
 
@@ -16,14 +18,14 @@ The intent is to turn the bench into an unattended electrical/thermal validation
 
 ## Overall automation potential
 
-The current validation matrix contains 100 test rows. The highest automation potential is in DC characterization, dynamics, protection, automotive electrical disturbances, thermal testing, endurance, and selected functional-safety fault-injection work.
+The current validation matrix contains 121 test rows. The highest automation potential is in DC characterization, dynamics, protection, automotive electrical disturbances, thermal testing, endurance, and selected functional-safety fault-injection work.
 
 | Automation class | Approx. tests | Meaning |
 |---|---:|---|
-| Directly automatable | 36 | Can run unattended after one-time DUT wiring/probe setup |
-| Automatable with small fixture/capability additions | 18 | Requires relay topology, additional measurement range, second source/channel, or similar minor additions |
-| Partially automatable | 27 | Software can orchestrate and capture evidence, but specialized equipment or manual fault setup is still required |
-| Not covered by this bench | 19 | Requires EMC, mechanical, hipot, ESD, humidity/ingress, or other dedicated facilities |
+| Directly automatable | 38 | Can run unattended after one-time DUT wiring/probe setup |
+| Automatable with small fixture/capability additions | 23 | Requires relay topology, additional measurement range, second source/channel, or similar minor additions |
+| Partially automatable | 29 | Software can orchestrate and capture evidence, but specialized equipment or manual fault setup is still required |
+| Not covered by this bench | 31 | Requires EMC, mechanical, hipot, ESD, humidity/ingress, or other dedicated facilities |
 
 The practical result is that roughly half of the full matrix can be highly automated, and the most frequently repeated design-verification tests are concentrated in that group.
 
@@ -31,16 +33,21 @@ The practical result is that roughly half of the full matrix can be highly autom
 
 | Family | Total | Direct automation | Easy / conditional | Partial | Not covered |
 |---|---:|---:|---:|---:|---:|
-| PS electrical | 31 | 21 | 4 | 6 | 0 |
+| PS electrical | 34 | 21 | 6 | 6 | 1 |
 | AUTO automotive electrical | 20 | 5 | 7 | 6 | 2 |
-| ISO transient TR | 6 | 0 | 0 | 2 | 4 |
-| EMC | 8 | 0 | 0 | 1 | 7 |
+| ISO transient TR | 8 | 0 | 0 | 2 | 6 |
+| EMC | 12 | 0 | 0 | 1 | 11 |
 | Thermal | 11 | 7 | 1 | 2 | 1 |
-| Lifetime / endurance | 5 | 3 | 2 | 0 | 0 |
-| Environmental / mechanical | 5 | 0 | 0 | 1 | 4 |
+| Lifetime / endurance | 7 | 3 | 2 | 0 | 2 |
+| Environmental / mechanical | 6 | 0 | 0 | 1 | 5 |
 | 48 V | 1 | 0 | 1 | 0 | 0 |
-| HV | 2 | 0 | 0 | 1 | 1 |
+| HV | 4 | 0 | 0 | 1 | 3 |
 | Functional safety | 11 | 0 | 3 | 8 | 0 |
+| System interaction | 3 | 2 | 1 | 0 | 0 |
+| Bidirectional | 2 | 0 | 2 | 0 | 0 |
+| Robustness-validation method | 1 | 0 | 0 | 1 | 0 |
+| Component qualification | 1 | 0 | 0 | 1 | 0 |
+| **Total** | **121** | **38** | **23** | **29** | **31** |
 
 ## Highest-priority tests to automate
 
@@ -272,6 +279,11 @@ The following areas still require specialized equipment or facilities:
 | Dielectric withstand | Hipot tester and safety enclosure |
 | Vibration / shock | Shaker / shock equipment |
 | IP / fluid / salt / humidity-specific testing | Dedicated environmental facilities |
+| Extended-audio / alternative RF immunity | ISO 11452-10/-11/-3/-5/-7 fixtures, RF generation/amplification and compliant facilities |
+| HV shielded-line transients | ISO/TS 7637-4 generator/network, HV-rated probes and interlocked enclosure |
+| Insulation coordination / partial discharge | Partial-discharge test set, impulse generator and HV safety enclosure |
+| Power-module cycling / biased humidity | Dedicated power-cycling and humidity-with-bias facilities |
+| Altitude / low pressure | Pressure/altitude chamber, ideally temperature-capable |
 
 ## Recommended automated bench state machine
 
