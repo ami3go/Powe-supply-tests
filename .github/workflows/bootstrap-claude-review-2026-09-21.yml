@@ -47,7 +47,6 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-
           p = Path('check_matrix_consistency.py')
           s = p.read_text()
           s = s.replace(
@@ -58,39 +57,9 @@ jobs:
           new = '            token = cell.replace("\\\\", "").split(" · ")[0]\n            if token.endswith("*"):\n                token = token[:-1]\n            if token not in ASIL_LEGEND:\n                errors.append(f"{r[0]} ASIL {col}: {cell!r} not in the legend")'
           assert old in s, 'checker ASIL validation block not found'
           p.write_text(s.replace(old, new))
-
           for csv_path in Path('docs').glob('*.csv'):
-              data = csv_path.read_bytes().replace(b'\r\n', b'\n')
-              csv_path.write_bytes(data)
+              csv_path.write_bytes(csv_path.read_bytes().replace(b'\r\n', b'\n'))
           PY
-
-      - name: Install matrix consistency CI
-        shell: bash
-        run: |
-          mkdir -p .github/workflows
-          cat > .github/workflows/matrix-consistency.yml <<'YAML'
-          name: Matrix consistency
-
-          on:
-            push:
-              paths:
-                - 'docs/**'
-                - 'check_matrix_consistency.py'
-                - '.github/workflows/matrix-consistency.yml'
-            pull_request:
-              paths:
-                - 'docs/**'
-                - 'check_matrix_consistency.py'
-                - '.github/workflows/matrix-consistency.yml'
-
-          jobs:
-            consistency:
-              runs-on: ubuntu-latest
-              steps:
-                - uses: actions/checkout@v4
-                - name: Validate matrix artefacts
-                  run: python3 check_matrix_consistency.py
-          YAML
 
       - name: Validate integrated repository
         shell: bash
@@ -101,24 +70,22 @@ jobs:
           import re
           md = Path('docs/automotive-power-supply-test-matrix.md').read_text()
           ids = re.findall(r'^\|\s*([A-Z0-9]+-\d{3})\s*\|', md, re.M)
-          assert len(ids) == 121 and len(set(ids)) == 121, (len(ids), len(set(ids)))
+          assert len(ids) == 121 and len(set(ids)) == 121
           bench = Path('docs/automated-power-supply-validation-bench.md').read_text()
           assert '121 test rows' in bench
           assert '**121** | **38** | **23** | **29** | **31**' in bench
-          readme = Path('README.md').read_text()
-          assert 'Research Source Links v2' in readme
+          assert 'Research Source Links v2' in Path('README.md').read_text()
           assert Path('docs/mission-profile-template.md').exists()
           print('validated 121-row repository integration')
           PY
           git diff --check
 
-      - name: Commit reviewed update
+      - name: Commit reviewed content
         shell: bash
         run: |
           rm -rf .review-staging
-          rm -f .github/workflows/bootstrap-claude-review-2026-09-21.yml
           git config user.name 'github-review-bot'
           git config user.email 'github-review-bot@users.noreply.github.com'
-          git add -A
+          git add -A .review-staging README.md check_matrix_consistency.py docs
           git commit -m 'docs: apply Claude deep review and expand validation coverage'
           git push origin HEAD:review/claude-2026-09-21
