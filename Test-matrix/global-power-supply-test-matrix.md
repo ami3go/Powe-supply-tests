@@ -1,6 +1,6 @@
 # Global Power Supply Validation Test Matrix
 
-_Last updated: 2026-09-21 · cross-industry extension of the 121-row automotive matrix_
+_Last updated: 2026-09-21 · cross-industry extension of the 135-row automotive matrix_
 
 ## Purpose
 
@@ -12,7 +12,7 @@ The detailed industry/standards discovery map is maintained in [`../docs/electro
 
 ## Inheritance from the automotive matrix
 
-The complete **121-row automotive matrix is part of this global matrix by inheritance**. It is not copied here verbatim because maintaining two physical copies would create revision drift. All rows `PS-*`, `AUTO-*`, `TR-*`, `EMC-*`, `TH-*`, `LIFE-*`, `ENV-*`, `48V-*`, `HV-*`, `FUSA-*`, `SYS-*`, `BI-*`, `RV-*` and `QUAL-*` from the automotive matrix remain applicable whenever the global row or product architecture calls for the same test primitive.
+The complete **135-row automotive matrix is part of this global matrix by inheritance**. It is not copied here verbatim because maintaining two physical copies would create revision drift. All rows `PS-*`, `AUTO-*`, `TR-*`, `EMC-*`, `TH-*`, `LIFE-*`, `ENV-*`, `48V-*`, `HV-*`, `FUSA-*`, `SYS-*`, `BI-*`, `CHG-*`, `RV-*` and `QUAL-*` from the automotive matrix remain applicable whenever the global row or product architecture calls for the same test primitive.
 
 The global rows below add tests that are either absent from automotive validation or materially different because another industry defines a different power interface, failure mechanism, environment or qualification method.
 
@@ -161,6 +161,7 @@ The global matrix inherits the complete automotive groups below without changing
 | `ENV-*` | Vibration, shock, ingress, fluids, free fall, altitude | ISO 16750-3/-5; ISO 20653; IEC 60068 where applicable |
 | `48V-*` | 48 V vehicle electrical architecture | ISO 21780; VDA 320/LV 148 |
 | `HV-*` | Voltage-class-B, isolation, partial discharge, CMTI | ISO 21498; ISO 6469-3; IEC 60664-1; IEC 62477-1 |
+| `CHG-*` | OBC AC input, charging safety/control and V2G/V2H behavior | ISO 5474-1/-2; ISO 15118-20; IEC 61851-21-1; IEC 61000 grid/power-quality methods; applicable grid rules |
 | `FUSA-*` | Safety mechanisms, timing, latent faults, dependent failures, fault injection | ISO 26262 |
 | `SYS-*`, `BI-*`, `RV-*`, `QUAL-*` | Fuse coordination, NVM integrity, realistic quiescent current, bidirectional faults, robustness, component qualification | ISO/OEM/AEC/mission-profile basis |
 

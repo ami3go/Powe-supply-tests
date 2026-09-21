@@ -120,3 +120,17 @@ BI-001,Power-flow direction change and mode transition,new,ROB,ET,—,++*,++*,++
 BI-002,Dual-source arbitration and inter-net fault propagation,new,CORE*,"FT, DFA",CF,T*,T*,REQ*,REQ*,CHG-21 · dual-source arbitration / inter-net propagation
 RV-001,Mission-profile-based robustness validation and margin mapping,new,ROB,WC,—,+,+,++,++,CHG-21 · mission-profile robustness-validation framework
 QUAL-001,Component qualification grade against mission profile,new,TRIG,DV,—,T,T,++,++,CHG-21 · component qualification evidence against mission profile
+CHG-001,AC input voltage and frequency operating range,new,ROB,ET,—,++*,++*,++*,++*,CHG-22 · OBC/AC charging interface only
+CHG-002,AC brownout and voltage-dip immunity,new,ROB,ET,—,++*,++*,++*,++*,CHG-22 · OBC/AC charging interface only
+CHG-003,AC interruption and restart,new,ROB,"ET, FT",—,++*,++*,++*,++*,CHG-22 · OBC/AC charging interface only
+CHG-004,Three-phase phase loss and voltage unbalance,new,ROB,ET,—,++*,++*,++*,++*,CHG-22 · three-phase OBC only
+CHG-005,AC input inrush and precharge,new,TRIG,ET,—,T,T,T,T,CHG-22 · trigger when precharge/inrush can affect a safety requirement
+CHG-006,AC input power factor and efficiency map,new,QUAL,—,—,—,—,—,—,"CHG-22 · performance/grid-quality evidence, not ISO 26262 driven"
+CHG-007,Harmonic current and flicker on the AC charging input,new,QUAL,—,—,—,—,—,—,"CHG-22 · public-grid compliance, not ISO 26262 driven"
+CHG-008,Protective-earth continuity through the vehicle charging path,new,TRIG,FT,CF,T,T,T,T,CHG-22 · trigger when PE monitoring/bonding is part of allocated malfunction safety behavior
+CHG-009,"Leakage, isolation and residual-current behavior while charging",new,TRIG,"ET, FT",CF,T,T,T,T,CHG-22 · electric-shock safety is primarily ISO 5474/6469; ISO 26262 only when malfunction behavior is allocated
+CHG-010,Charger and battery-management-system coordination,new,CORE*,"FT, DFA",CF,REQ*,REQ*,REQ*,REQ*,CHG-22 · when charging coordination enforces a safety-related battery/current/voltage limit
+CHG-011,Charging single-fault and abnormal-operation response,new,CORE*,"FT, FI, DFA",CF,REQ* · FI+,REQ* · FI+,REQ* · FI++,REQ* · FI++,CHG-22 · safety-analysis-derived charger faults
+CHG-012,V2G/V2H power-flow direction change and four-quadrant transition,new,CORE*,"FT, ET, DFA",CF,T*,T*,REQ*,REQ*,CHG-22 · bidirectional chargers only; grade follows safety allocation
+CHG-013,Grid loss and anti-islanding response during exported power,new,QUAL,—,—,—,—,—,—,CHG-22 · grid-interconnection compliance; separate from ISO 26262
+CHG-014,Charging recovery after communication loss or invalid charging sequence,new,CORE*,"FT, FI",CF,REQ* · FI+,REQ* · FI+,REQ* · FI++,REQ* · FI++,CHG-22 · where charging communication participates in safety-related energy-transfer control

@@ -15,7 +15,7 @@ Standards research and normalized standards mappings live in [`Standards/`](Stan
 All test-matrix artifacts live in [`Test-matrix/`](Test-matrix/):
 
 - [Global Power Supply Validation Test Matrix](Test-matrix/global-power-supply-test-matrix.md) — cross-industry master matrix.
-- [Automotive Power Supply Validation Test Matrix](Test-matrix/automotive-power-supply-test-matrix.md) — detailed 121-row automotive validation matrix.
+- [Automotive Power Supply Validation Test Matrix](Test-matrix/automotive-power-supply-test-matrix.md) — detailed 135-row automotive validation matrix.
 - [Automotive Power Supply Validation Test Matrix (CSV)](Test-matrix/automotive-power-supply-test-matrix.csv) — machine-readable automotive matrix.
 - [ISO 26262 ASIL Test Mapping](Test-matrix/iso26262-asil-test-mapping.md) — per-test functional-safety role, ASIL grading, rationale and change log.
 - [ISO 26262 Test Classification (CSV)](Test-matrix/iso26262-test-classification.csv) — machine-readable CORE/ROB/TRIG/QUAL/SUPP classification.

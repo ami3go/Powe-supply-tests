@@ -18,7 +18,7 @@ The intent is to turn the bench into an unattended electrical/thermal validation
 
 ## Overall automation potential
 
-The current validation matrix contains 121 test rows. The highest automation potential is in DC characterization, dynamics, protection, automotive electrical disturbances, thermal testing, endurance, and selected functional-safety fault-injection work.
+The automation counts below were made against the original 121-row matrix. The automotive matrix now contains 135 rows after the CHG-001…CHG-014 charging/V2G extension; those 14 mains/HV charging rows are not included in the counts below and generally require a programmable AC/grid simulator, HV battery simulator/load, power analyzer and charging-interface emulation. The highest automation potential of the original bench remains in DC characterization, dynamics, protection, automotive electrical disturbances, thermal testing, endurance, and selected functional-safety fault-injection work.
 
 | Automation class | Approx. tests | Meaning |
 |---|---:|---|

@@ -2,7 +2,7 @@
 
 *Revision 2 (merged with review corrections) · 2026-09-20 · supersedes the version reviewed in [R15] · every change is listed with its rationale and references in [§2](#2-change-log)*
 
-This file maps the 121 tests in [`automotive-power-supply-test-matrix.md`](automotive-power-supply-test-matrix.md) to their functional-safety role under ISO 26262; the 11 additions introduced by the Revision 2 review are now incorporated in the matrix.
+This file maps the 135 tests in [`automotive-power-supply-test-matrix.md`](automotive-power-supply-test-matrix.md) to their functional-safety role under ISO 26262; the 11 additions introduced by the Revision 2 review are now incorporated in the matrix.
 
 > **Unchanged principle.** ISO 26262 does not define a fixed list of bench tests per ASIL. Verification obligations flow from the safety goals (or, for a safety element out of context, the assumed safety requirements), the technical and hardware safety requirements, the safety mechanisms and the safety analyses. Every safety requirement has to be verified, whatever its ASIL.
 >
@@ -49,6 +49,7 @@ This file maps the 121 tests in [`automotive-power-supply-test-matrix.md`](autom
 | CHG-19 | Text corrections: independence, validation, edition, references | Preamble; §7; §11 | R2 cl. 6; R3 cl. 7, 8; R9; R15 |
 | CHG-20 | Evidence process: sample size, tool confidence, single source of truth | §7; §10 | R4 cl. 10; R5 cl. 11; R13; R14; R15 |
 | CHG-21 | Claude deep-review integration: 21 coverage rows, title/style reconciliation, source expansion and consistency CI | PS-032…QUAL-001; §4; repository CI | Deep review 2026-09-21; research-source-links-v2; test-matrix-additions-2026-09-21 |
+| CHG-22 | OBC / charging / V2G expansion from the global matrix; current ISO 5474 references replace withdrawn ISO 17409 | CHG-001…CHG-014; §4.2 | ISO 5474-1/-2:2024; ISO 15118-20:2022; IEC 61851-21-1; IEC 61000 charging/grid methods |
 
 ### 2.1 Rationale per change
 
@@ -451,6 +452,27 @@ The following rows were added after the 2026-09-21 deep review. Their grades are
 | BI-002 | CORE* | T* | T* | REQ* | REQ* | dual-source arbitration / inter-net propagation |
 | RV-001 | ROB | + | + | ++ | ++ | mission-profile robustness-validation framework |
 | QUAL-001 | TRIG | T | T | ++ | ++ | component qualification evidence against mission profile |
+
+### 4.2 CHG-22 charging / OBC / V2G additions
+
+These conditional rows extend the automotive matrix to products with an external conductive charging interface. Grid-quality and anti-islanding rows are not automatically ISO 26262 evidence; rows involving malfunctioning charger control, battery limits, contactors or safety-related communication become required only when allocated by the safety concept.
+
+| ID | Class | ASIL A | ASIL B | ASIL C | ASIL D | Note |
+|---|---|---|---|---|---|---|
+| CHG-001 | ROB | ++* | ++* | ++* | ++* | AC OBC input range/frequency where an external charging interface exists |
+| CHG-002 | ROB | ++* | ++* | ++* | ++* | AC brownout/dip immunity for OBC products |
+| CHG-003 | ROB | ++* | ++* | ++* | ++* | AC interruption/restart for OBC products |
+| CHG-004 | ROB | ++* | ++* | ++* | ++* | three-phase OBC only |
+| CHG-005 | TRIG | T | T | T | T | precharge/inrush becomes safety evidence only when analysis allocates a relevant limit |
+| CHG-006 | QUAL | — | — | — | — | performance/efficiency/grid-quality evidence |
+| CHG-007 | QUAL | — | — | — | — | public-grid harmonic/flicker compliance |
+| CHG-008 | TRIG | T | T | T | T | PE monitoring/bonding if part of malfunction safety behavior |
+| CHG-009 | TRIG | T | T | T | T | primarily ISO 5474/6469 electrical safety; ISO 26262 only when malfunction behavior is allocated |
+| CHG-010 | CORE* | REQ* | REQ* | REQ* | REQ* | charger/BMS coordination enforcing safety-related limits |
+| CHG-011 | CORE* | REQ* · FI+ | REQ* · FI+ | REQ* · FI++ | REQ* · FI++ | safety-analysis-derived charger single faults |
+| CHG-012 | CORE* | T* | T* | REQ* | REQ* | bidirectional charging only; exact grade follows the safety allocation |
+| CHG-013 | QUAL | — | — | — | — | grid-interconnection anti-islanding compliance |
+| CHG-014 | CORE* | REQ* · FI+ | REQ* · FI+ | REQ* · FI++ | REQ* · FI++ | charging communication participates in safety-related energy transfer |
 
 ## 5. New rows: test outlines
 

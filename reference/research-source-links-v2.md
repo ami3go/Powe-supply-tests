@@ -123,6 +123,22 @@ Unchanged.
 
 ---
 
+
+## M. NEW — OBC / conductive charging / V2G
+
+| # | Source / document | Main use | Access | Status | Link |
+|---:|---|---|---|---|---|
+| 92 | **ISO 5474-1:2024** — Functional and safety requirements for power transfer — Part 1: General conductive power-transfer requirements | Current vehicle-side general charging/reverse-power-transfer basis; replaces the role previously covered by withdrawn ISO 17409:2020 | Catalogue | Published | https://www.iso.org/standard/81296.html |
+| 93 | **ISO 5474-2:2024** — Part 2: AC power transfer | Vehicle-side AC conductive charging, including on-board charger configurations and reverse power transfer | Catalogue | Published; confirmed 2024 | https://www.iso.org/standard/81298.html |
+| 94 | **ISO 15118-20:2022** — 2nd-generation V2G communication | Communication messages and sequences supporting bidirectional power transfer | Catalogue | Published; amendment exists | https://www.iso.org/standard/77845.html |
+| 95 | **IEC 61851-21-1:2017** — On-board charger EMC requirements | Conductive charging EMC requirements for EV on-board charging units | Commercial catalogue | Published; IEC stability date 2026 | https://webstore.iec.ch/en/publication/32045 |
+| 96 | **IEC 61000-4-27:2000+A1:2009+A2:2025** — Voltage-unbalance immunity | Three-phase OBC voltage-unbalance immunity method where within scope | Commercial catalogue | Current consolidated edition | https://webstore.iec.ch/en/publication/109827 |
+| 97 | **IEC 61000-3-2:2018+A1:2020+A2:2024** — Harmonic current limits | Harmonic-current compliance for applicable chargers up to 16 A per phase | Commercial catalogue | Current consolidated edition | https://webstore.iec.ch/en/publication/92799 |
+| 98 | **IEC 61000-3-3:2013+A1:2017+A2:2021** — Voltage changes/flicker | Flicker/voltage-fluctuation compliance for applicable chargers up to 16 A per phase | Commercial catalogue | Current consolidated edition; 2025 interpretation sheet incorporated | https://webstore.iec.ch/en/publication/68776 |
+| 99 | **ISO 17409:2020** — Conductive power transfer safety requirements | Historical reference only; superseded by the ISO 5474 family | Catalogue | **Withdrawn** | https://www.iso.org/standard/72880.html |
+
+---
+
 ## Provenance notes for v2
 
 - Entries 44–91 were verified on 2026-09-21 against publisher catalogue pages, official association sites or accredited-laboratory publications. **Title, number, edition, date and publication status** were checked. Clause-level content was **not** read from paywalled text, and no clause numbers are asserted for any newly added standard.
