@@ -19,11 +19,11 @@ import re
 import sys
 from pathlib import Path
 
-DOCS = Path("docs")
-MATRIX_MD = DOCS / "automotive-power-supply-test-matrix.md"
-MATRIX_CSV = DOCS / "automotive-power-supply-test-matrix.csv"
-CLASS_CSV = DOCS / "iso26262-test-classification.csv"
-MAPPING_MD = DOCS / "iso26262-asil-test-mapping.md"
+STANDARDS = Path("Standards")
+MATRIX_MD = STANDARDS / "automotive-power-supply-test-matrix.md"
+MATRIX_CSV = STANDARDS / "automotive-power-supply-test-matrix.csv"
+CLASS_CSV = STANDARDS / "iso26262-test-classification.csv"
+MAPPING_MD = STANDARDS / "iso26262-asil-test-mapping.md"
 
 ID_RE = re.compile(r"^\| *([A-Z0-9]+-\d{3}) *\|")
 ASIL_LEGEND = {"REQ", "++", "+", "o", "T", "n/a", "—", "FI+", "FI++", "WC+"}
