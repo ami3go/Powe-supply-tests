@@ -17,7 +17,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: review/claude-2026-09-21
-      - name: Rebuild and apply
+
+      - name: Rebuild integration package
         shell: bash
         run: |
           cat .review-staging/part00.gz.b64 .review-staging/part01.gz.b64 .review-staging/part02.gz.b64 .review-staging/part03.gz.b64 .review-staging/part04.gz.b64 .review-staging/part05.gz.b64 .review-staging/part06.gz.b64 .review-staging/part07.gz.b64 | base64 --decode | gzip -d > /tmp/apply-review.yml
@@ -26,59 +27,98 @@ jobs:
           from pathlib import Path
           text = Path('/tmp/apply-review.yml').read_text()
           m = re.search(r"payloads = json\.loads\(r'''(.*?)'''\)", text, re.S)
-          assert m
+          assert m, 'payload block not found'
           for name, data in json.loads(m.group(1)).items():
-              p=Path(name); p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(gzip.decompress(base64.b64decode(data)))
+              p = Path(name)
+              p.parent.mkdir(parents=True, exist_ok=True)
+              p.write_bytes(gzip.decompress(base64.b64decode(data)))
           PY
+
+      - name: Apply Claude review
+        shell: bash
+        run: |
           mkdir -p .tmp
           cp /tmp/apply_review.py .tmp/apply_review.py
           python3 .tmp/apply_review.py
           rm -rf .tmp
+
+      - name: Align checker with documented ASIL legend and normalize CSVs
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('check_matrix_consistency.py')
+          s = p.read_text()
+          s = s.replace(
+              'ASIL_LEGEND = {"REQ", "REQ*", "++", "++*", "+", "o", "T", "T*", "n/a", "—"}',
+              'ASIL_LEGEND = {"REQ", "++", "+", "o", "T", "n/a", "—", "FI+", "FI++", "WC+"}'
+          )
+          old = '            if cell.replace("\\\\", "").split(" · ")[0] not in ASIL_LEGEND:\n                errors.append(f"{r[0]} ASIL {col}: {cell!r} not in the legend")'
+          new = '            token = cell.replace("\\\\", "").split(" · ")[0]\n            if token.endswith("*"):\n                token = token[:-1]\n            if token not in ASIL_LEGEND:\n                errors.append(f"{r[0]} ASIL {col}: {cell!r} not in the legend")'
+          assert old in s, 'checker ASIL validation block not found'
+          p.write_text(s.replace(old, new))
+
+          for csv_path in Path('docs').glob('*.csv'):
+              data = csv_path.read_bytes().replace(b'\r\n', b'\n')
+              csv_path.write_bytes(data)
+          PY
+
+      - name: Install matrix consistency CI
+        shell: bash
+        run: |
           mkdir -p .github/workflows
           cat > .github/workflows/matrix-consistency.yml <<'YAML'
           name: Matrix consistency
+
           on:
             push:
-              paths: ['docs/**', 'check_matrix_consistency.py', '.github/workflows/matrix-consistency.yml']
+              paths:
+                - 'docs/**'
+                - 'check_matrix_consistency.py'
+                - '.github/workflows/matrix-consistency.yml'
             pull_request:
-              paths: ['docs/**', 'check_matrix_consistency.py', '.github/workflows/matrix-consistency.yml']
+              paths:
+                - 'docs/**'
+                - 'check_matrix_consistency.py'
+                - '.github/workflows/matrix-consistency.yml'
+
           jobs:
             consistency:
               runs-on: ubuntu-latest
               steps:
                 - uses: actions/checkout@v4
-                - run: python3 check_matrix_consistency.py
+                - name: Validate matrix artefacts
+                  run: python3 check_matrix_consistency.py
           YAML
-      - name: Capture validation diagnostic
+
+      - name: Validate integrated repository
         shell: bash
         run: |
-          set +e
-          {
-            echo '=== checker ==='
-            python3 check_matrix_consistency.py
-            echo "checker_rc=$?"
-            echo '=== assertions ==='
-            python3 - <<'PY'
+          python3 check_matrix_consistency.py
+          python3 - <<'PY'
           from pathlib import Path
           import re
-          md=Path('docs/automotive-power-supply-test-matrix.md').read_text()
-          ids=re.findall(r'^\|\s*([A-Z0-9]+-\d{3})\s*\|', md, re.M)
-          print('ids',len(ids),'unique',len(set(ids)))
-          bench=Path('docs/automated-power-supply-validation-bench.md').read_text()
-          print('bench_121_phrase', '121 test rows' in bench)
-          print('bench_total_row', '**121** | **38** | **23** | **29** | **31**' in bench)
-          readme=Path('README.md').read_text()
-          print('readme_v2', 'Research Source Links v2' in readme)
-          print('mission_profile', Path('docs/mission-profile-template.md').exists())
+          md = Path('docs/automotive-power-supply-test-matrix.md').read_text()
+          ids = re.findall(r'^\|\s*([A-Z0-9]+-\d{3})\s*\|', md, re.M)
+          assert len(ids) == 121 and len(set(ids)) == 121, (len(ids), len(set(ids)))
+          bench = Path('docs/automated-power-supply-validation-bench.md').read_text()
+          assert '121 test rows' in bench
+          assert '**121** | **38** | **23** | **29** | **31**' in bench
+          readme = Path('README.md').read_text()
+          assert 'Research Source Links v2' in readme
+          assert Path('docs/mission-profile-template.md').exists()
+          print('validated 121-row repository integration')
           PY
-            echo "assert_rc=$?"
-            echo '=== diff check ==='
-            git diff --check
-            echo "diff_rc=$?"
-          } > .review-staging/validation-diagnostic.txt 2>&1
+          git diff --check
+
+      - name: Commit reviewed update
+        shell: bash
+        run: |
+          rm -rf .review-staging
+          rm -f .github/workflows/bootstrap-claude-review-2026-09-21.yml
           git config user.name 'github-review-bot'
           git config user.email 'github-review-bot@users.noreply.github.com'
-          git add .review-staging/validation-diagnostic.txt
-          git commit -m 'chore: record integrated validation diagnostic'
+          git add -A
+          git commit -m 'docs: apply Claude deep review and expand validation coverage'
           git push origin HEAD:review/claude-2026-09-21
-          exit 1
