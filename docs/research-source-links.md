@@ -83,3 +83,8 @@ A source can be present here even when it is not cited in every matrix row: some
 ## Related project document
 
 - [Automotive Power Supply Validation Test Matrix](automotive-power-supply-test-matrix.md)
+
+## Extended research
+
+- [Research Source Links v2](research-source-links-v2.md) — entries 44–91 from the 2026-09-21 second research pass.
+- [Full Research Material Index](research-material-full-index.md) — complete research trail and provenance notes.

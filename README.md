@@ -4,13 +4,22 @@ Automotive power-supply validation plans, test matrices, standards references, s
 
 ## Documents
 
-- [Automotive Power Supply Validation Test Matrix](docs/automotive-power-supply-test-matrix.md) — comprehensive matrix covering DC characterization, automotive supply disturbances, protection/fault injection, ISO 7637 transients, EMC/ESD, thermal/environmental testing, endurance, 48 V and voltage-class-B systems.
-- [Automated Power-Supply Validation Bench](docs/automated-power-supply-validation-bench.md) — automation coverage assessment and recommended architecture for a thermal chamber, N6700 supply, electronic load, DPO4000 oscilloscope, and relay/fast fault-injection fixture.
-- [Automotive Power-Supply Validation — Research Source Links](docs/research-source-links.md) — verified link index for standards, LV 124 / VW 80000 material, Keysight bench documentation, application notes and automotive reference designs used during the deep research.
+- [Automotive Power Supply Validation Test Matrix](docs/automotive-power-supply-test-matrix.md) — authoritative 121-row human-readable validation matrix.
+- [Automotive Power Supply Validation Test Matrix (CSV)](docs/automotive-power-supply-test-matrix.csv) — machine-readable copy generated from the matrix.
+- [ISO 26262 ASIL Test Mapping](docs/iso26262-asil-test-mapping.md) — per-test functional-safety role, ASIL grading, rationale and change log.
+- [ISO 26262 Test Classification (CSV)](docs/iso26262-test-classification.csv) — machine-readable CORE/ROB/TRIG/QUAL/SUPP classification.
+- [Automated Power-Supply Validation Bench](docs/automated-power-supply-validation-bench.md) — automation coverage and recommended N6700/e-load/DPO4000/chamber/fault-fixture architecture.
+- [Research Source Links](docs/research-source-links.md) — original curated research index.
+- [Research Source Links v2](docs/research-source-links-v2.md) — second research pass, entries 44–91 and updated standards/market coverage.
+- [Full Research Material Index](docs/research-material-full-index.md) — full research trail and provenance notes.
+- [Deep Review and Gap Analysis — 2026-09-21](docs/deep-review-and-gap-analysis-2026-09-21.md) — repository-wide Claude review and verified gaps.
+- [Test Matrix Additions — 2026-09-21](docs/test-matrix-additions-2026-09-21.md) — rationale and applicability filter for the 21 integrated rows.
+- [Mission Profile Template](docs/mission-profile-template.md) — project input template for lifetime, robustness, environmental and margin-test derivation.
+- [`check_matrix_consistency.py`](check_matrix_consistency.py) — CI guard against duplicate/missing IDs, title/classification drift, invalid ASIL vocabulary and missing references.
 
 ## Intended bench
 
-The initial matrix is organized around a programmable DC power supply, electronic load, oscilloscope and thermal chamber. Each test indicates whether the existing bench is sufficient or whether additional equipment is required.
+The matrix is organized around a programmable DC power supply, electronic load, oscilloscope and thermal chamber. Each test indicates whether the existing bench is sufficient or whether additional equipment is required.
 
 ## Reference families
 
